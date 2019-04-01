@@ -10,6 +10,10 @@ private int customerId;
 		// TODO Auto-generated constructor stub
 	}
 	
+	
+	public Customer() {
+		super();
+	}
 	public int getCustomerId() {
 		return customerId;
 	}

@@ -10,13 +10,14 @@ public class Person {
 	
 	
 	public Person(String firstname, String lastname, String address, int phNum) {
-		super();
+		
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.address = address;
 		this.phNum = phNum;
 	}
 	
+	public Person() {}
 	public String getFirstname() {
 		return firstname;
 	}
