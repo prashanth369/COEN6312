@@ -1,17 +1,14 @@
 package com.Spring.Model;
-
-import java.util.Date;
-
 public class Flight {
-	private Date departureDate;
-	private Date arrivalTime;
+	private String departureDate;
+	private String arrivalTime;
 	private long duration;
 	private String flightNum;
 	private String destination;
 	private int capacity;
 	
 	/** Constructor for the flight class for setting the fields to a particular flight */
-	public Flight(Date departureDate, Date arrivalTime, long duration, String flightNum, String destination, int capacity) {
+	public Flight(String departureDate, String arrivalTime, long duration, String flightNum, String destination, int capacity) {
 		
 		this.departureDate = departureDate;
 		this.arrivalTime = arrivalTime;
@@ -21,17 +18,16 @@ public class Flight {
 		this.capacity = capacity;
 	}
 	
-	
-	public Date getDepartureDate() {
+	public String getDepartureDate() {
 		return departureDate;
 	}
-	public void setDepartureDate(Date departureDate) {
+	public void setDepartureDate(String departureDate) {
 		this.departureDate = departureDate;
 	}
-	public Date getArrivalTime() {
+	public String getArrivalTime() {
 		return arrivalTime;
 	}
-	public void setArrivalTime(Date arrivalTime) {
+	public void setArrivalTime(String arrivalTime) {
 		this.arrivalTime = arrivalTime;
 	}
 	public long getDuration() {
@@ -57,6 +53,10 @@ public class Flight {
 	}
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
+	}
+	
+	public String toString() {
+		return "The flight Number is " + this.flightNum + " the destination " + this.destination +" and the duration is "+ this.duration + " Hours" + " Its departure date " + this.departureDate + "\n";
 	}
 	
 }

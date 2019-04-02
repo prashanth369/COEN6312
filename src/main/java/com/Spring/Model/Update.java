@@ -1,21 +1,25 @@
 package com.Spring.Model;
-
-import java.util.Date;
-
 public class Update extends Reservation {
 
+	private Booking b;
 	
-	public  void makeUpdate(String destination, Date deptDate ) {
-		
-		
-		// TODO have to write some code for making an updation to the existing booking
+	public  Booking makeUpdate(String destination, String departureDate, String newDestination , String newDate, Customer c) {
+		for(Booking b : c.getBookings()) {
+			if(b.getBookedFlight().getDestination().equalsIgnoreCase(destination) && (b.getBookedFlight().getDepartureDate().equals(departureDate))) {
+				c.removeBooking(b);
+				return checkUpdate(newDestination, newDate, c);
+			}
+		}
+		return null;
+		}
+	
+	public Booking checkUpdate(String destination, String newDate, Customer c) {
+	 b =new Booking();
+	if( b.addBooking(destination, newDate, c)) {
+		return b;
 	}
-	
-	public boolean checkUpdate() {
-		// TODO have to write some code for making an updation to the existing booking
-      
-		
-		return false;
+	return null;
+	 
 	}
 	@Override
 	public void run() {

@@ -5,13 +5,13 @@ import java.util.List;
 public class Airlines {
 	private String name;
 	private int numbFlights;
-	private List<Flight> ownedFights;
+	private static List<Flight> ownedFights;
 	
 	/**This constructor is for creating an Airlines with name, number of flights and the flights owned by it  */
 	public Airlines(String name, int numbFlights, List<Flight> ownedFights) {
 		this.name = name;
 		this.numbFlights = numbFlights;
-		this.ownedFights = ownedFights;
+		Airlines.ownedFights = ownedFights;
 	}
 
 	
@@ -31,8 +31,10 @@ public class Airlines {
 		return ownedFights;
 	}
 	public void setOwnedFights(List<Flight> ownedFights) {
-		this.ownedFights = ownedFights;
+		Airlines.ownedFights = ownedFights;
 	}
 	
-
+	public String toString() {
+		return this.name + " has " + this.getOwnedFights() +" " + this.numbFlights;
+	}
 }

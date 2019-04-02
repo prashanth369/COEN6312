@@ -6,10 +6,10 @@ public class Person {
 	private String firstname;
 	private String lastname;
 	private String address;
-	private int phNum;
+	private String phNum;
 	
 	
-	public Person(String firstname, String lastname, String address, int phNum) {
+	public Person(String firstname, String lastname, String address, String phNum) {
 		
 		this.firstname = firstname;
 		this.lastname = lastname;
@@ -36,10 +36,10 @@ public class Person {
 	public void setAddress(String address) {
 		this.address = address;
 	}
-	public int getPhNum() {
+	public String getPhNum() {
 		return phNum;
 	}
-	public void setPhNum(int phNum) {
+	public void setPhNum(String phNum) {
 		this.phNum = phNum;
 	}
 	

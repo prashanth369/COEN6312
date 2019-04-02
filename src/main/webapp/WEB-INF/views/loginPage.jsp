@@ -14,8 +14,8 @@ color:red
 <body>
 <p>${errorMessage}</p>
 <form action="/airline/login" method ="POST">
- User Name : <input type ="text" name ="userName"></br>
- Password : <input type ="password" name ="password"></br>
+ User Name : <input type ="text" name ="userName"><br><br>
+ Password : <input type ="password" name ="password"><br><br>
  <input type = "submit" value ="Submit">
  
 </form>

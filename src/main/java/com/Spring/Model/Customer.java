@@ -1,18 +1,24 @@
 package com.Spring.Model;
 
+import java.util.ArrayList;
+import java.util.List;
+
 public class Customer extends Person{
-private int customerId;
+private int customerId;	
+static  List<Booking> bookedReservation;
 	
-	
-	/** This constructor is the basic constructor for creting the fields for the customer */
-	public Customer(String firstname, String lastname, String address, int phNum) {
+
+	/** This constructor is the basic constructor for creating the fields for the customer */
+	public Customer(String firstname, String lastname, String address, String phNum) {
 		super(firstname, lastname, address, phNum);
 		// TODO Auto-generated constructor stub
+		bookedReservation = new ArrayList<Booking>();
+
 	}
 	
 	
 	public Customer() {
-		super();
+		bookedReservation = new ArrayList<Booking>();
 	}
 	public int getCustomerId() {
 		return customerId;
@@ -28,4 +34,15 @@ private int customerId;
 		return false;
 	}
 
+	public List<Booking> getBookings() {
+		return bookedReservation;
+	}
+	public void addBooking(Booking b) {
+		bookedReservation.add(b);
+	}
+	public void removeBooking(Booking b) {
+	
+				bookedReservation.remove(b);
+		
+	}
 }

@@ -8,7 +8,7 @@ private int adminId;
 /**
  * use these fields for creating the constructor
  * **/
-	public Admin(String firstname, String lastname, String address, int phNum) {
+	public Admin(String firstname, String lastname, String address, String phNum) {
 		super(firstname, lastname, address, phNum);
 	}
 	public int getCustomerId() {
