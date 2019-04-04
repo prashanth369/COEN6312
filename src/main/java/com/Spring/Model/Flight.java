@@ -6,9 +6,10 @@ public class Flight {
 	private String flightNum;
 	private String destination;
 	private int capacity;
+	private double price;
 	
 	/** Constructor for the flight class for setting the fields to a particular flight */
-	public Flight(String departureDate, String arrivalTime, long duration, String flightNum, String destination, int capacity) {
+	public Flight(String departureDate, String arrivalTime, long duration, String flightNum, String destination, int capacity, double price) {
 		
 		this.departureDate = departureDate;
 		this.arrivalTime = arrivalTime;
@@ -16,6 +17,7 @@ public class Flight {
 		this.flightNum = flightNum;
 		this.destination = destination;
 		this.capacity = capacity;
+		this.price = price;
 	}
 	
 	public String getDepartureDate() {
@@ -54,9 +56,15 @@ public class Flight {
 	public void setCapacity(int capacity) {
 		this.capacity = capacity;
 	}
+	public void setPrice(double price) {
+		this.price = price;
+	}
+	public double getPrice() {
+		return this.price;
+	}
 	
 	public String toString() {
-		return "The flight Number is " + this.flightNum + " the destination " + this.destination +" and the duration is "+ this.duration + " Hours" + " Its departure date " + this.departureDate + "\n";
+		return "The flight Number is " + this.flightNum + " the destination " + this.destination +" and the duration is "+ this.duration + " Hours" + " Its departure date " + this.departureDate + " " + "$" + this.price + "\n";
 	}
 	
 }

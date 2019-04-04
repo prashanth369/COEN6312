@@ -21,7 +21,7 @@ public class ReservationController {
     private String usernameForFlight="";
 	private static FlightService flightService = new FlightService();
 	static List<Flight> values = new ArrayList<>();
-	static  List<Flight> userBookedFlights;
+	  List<Flight> userBookedFlights = new ArrayList<>();;
 
 
 	
@@ -50,7 +50,8 @@ public class ReservationController {
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String getLogin(@RequestParam String firstName,@RequestParam String lastName,@RequestParam String address,@RequestParam String phNum, @RequestParam String userName,@RequestParam String password, ModelMap model) throws Exception {
           boolean testing = false;
-          userBookedFlights.clear();
+          if(userBookedFlights.size() > 0) {
+          userBookedFlights.clear();}
 		if(firstName.isEmpty()) {
 			model.addAttribute("errorFirstName", " Firstname cannot be empty ");
 			testing =true;
@@ -92,8 +93,8 @@ public class ReservationController {
 			usernameForFlight = userName.trim();
 			model.addAttribute("firstName", firstName.trim());
 			model.addAttribute("lastName", lastName.trim());
-			model.addAttribute("values", customerService.getTheCustomerInstance().getBookings());
-
+			model.addAttribute("message", "The user " + firstName + " currenlt does not have any reservations ");
+            model.addAttribute("price", 0.0);
 		return "index";
 		}
 	}
@@ -105,7 +106,6 @@ public class ReservationController {
 	
 	@RequestMapping(value = "/searchResults", method = RequestMethod.POST)
 	public String getSearchResults(@RequestParam String destination, ModelMap model) {
-		userBookedFlights = new ArrayList<Flight>();
 		if(destination.isEmpty()) {
 			model.addAttribute("errorMessage", "Select the destination first");
 			return "userPage";
@@ -117,6 +117,8 @@ public class ReservationController {
 		return "resultSearch";
 	}
 	
+	
+	//TODO have to include the cancelled data in the files
 	@RequestMapping(value = "/booking", method = RequestMethod.POST)
 	public String makeBookingForSelectedDestin(@RequestParam("naming") String[] naming, ModelMap model){
 		if(naming[0].equalsIgnoreCase("value1")) {
@@ -137,9 +139,12 @@ public class ReservationController {
 				 counter1 = dataVariable.length;
 				 while(counter1 > counter2 ) {
 				 userBookedFlights.add(flightService.getFlightsForDepartureAndDestination(data.split(" ")[counter2 + 8], data.split(" ")[counter2 + 18]));
-				 counter2 = counter2 + 19;
+				 counter2 = counter2 + 20;
 				 }
+				double price ;
+				price = customerService.getPaymentInstance().getBookingPrice();
 				 model.addAttribute("values", userBookedFlights);
+   				 model.addAttribute("price", price);
 				values.clear();
 		return "index";
 	}
@@ -160,17 +165,62 @@ public class ReservationController {
 		    model.addAttribute("lastName", test.split("  ")[2]);
 			customerService.addCustomer(test.split("  ")[1], test.split("  ")[2], test.split("  ")[3], test.split("  ")[4]);
 			 String data = service.retrieveUserBookedData(userName);
+			 // This is where i have to change the code for cancelling 
 			 data = data.substring(0, data.length()-1);
 			 String[] dataVariable = data.split(" ");
 			 int counter1, counter2 =0;;
 			 counter1 = dataVariable.length;
 			 while(counter1 > counter2 ) {
 			 userBookedFlights.add(flightService.getFlightsForDepartureAndDestination(data.split(" ")[counter2 + 8], data.split(" ")[counter2 + 18]));
-			 counter2 = counter2 + 19;
+			 counter2 = counter2 + 20;
 			 }
+			 double price = 0.0;
+			price = customerService.getPaymentInstance().getBookingPrice();
+			 model.addAttribute("price", price);
 			 model.addAttribute("values", userBookedFlights);
 			 
 		return "index";
 	}
+	
+	
+	@RequestMapping(value = "cancelBooking", method = RequestMethod.GET)
+	public String getCancelBookings(ModelMap model) {
+		
+		if(userBookedFlights.isEmpty()) {
+			model.addAttribute("emptyMessage", "No bookings to cancel");
+			model.addAttribute("price", 0.0);
+			return "index";
+		}
+		model.addAttribute("naming", userBookedFlights);
+		 double price = 0.0;
+		 for(Flight f: userBookedFlights) {
+			 price = price + f.getPrice();
+		 }
+			double val = customerService.getPaymentInstance().getBookingPrice();
+		 model.addAttribute("price", price+ val);
+		return "cancelBooking";
+	}
+	
+	@RequestMapping(value = "cancelBooking", method = RequestMethod.POST)
+	public String makeCancelBookings(@RequestParam String[] naming, ModelMap model) {
+		int counter =1;
+		while(counter <= userBookedFlights.size()) {
+		if(naming[0].equalsIgnoreCase("value" + counter)) {
+			customerService.makeTypeBooking("Cancel "+ userBookedFlights.get(counter-1).toString().split(" ")[7] + " " + userBookedFlights.get(counter-1).toString().split(" ")[17]);
+			userBookedFlights.remove(counter-1);
+		}
+		counter++;
+		}
+		double val = customerService.getPaymentInstance().getBookingPrice();
+		double price = 0.0;
+		 for(Flight f: userBookedFlights) {
+			 price = price + f.getPrice();
+		 }
+		 price = price + val;
+		 model.addAttribute("price", price);
+		model.addAttribute("values", userBookedFlights);
+		return "index";
+	}
+
 
 }

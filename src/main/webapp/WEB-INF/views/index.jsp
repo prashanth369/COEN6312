@@ -12,7 +12,14 @@
 				<li>${listValue}</li>
 			</c:forEach>
 		</ul>
-		<a href ="searchResults" >  Search for Flights Availability</a>
+		
+		<h4>${message}</h4>
+		<p>${emptyMessage}</p>
+		
+		<a href ="searchResults" >  Search for Flights Availability</a><br><br>
+		<a href ="cancelBooking"> Cancel the bookings</a><br><br>
+		<a href = "updateBooking"> Update the Booking</a><br><br>
 
+<h4> The Balance in the user ${firstName} for the bookings are $ ${price}</h4> 
 </body>
 </html>

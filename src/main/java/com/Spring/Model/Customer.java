@@ -6,8 +6,8 @@ import java.util.List;
 public class Customer extends Person{
 private int customerId;	
 static  List<Booking> bookedReservation;
-	
-
+	static double price;
+Payment payment = new Payment();
 	/** This constructor is the basic constructor for creating the fields for the customer */
 	public Customer(String firstname, String lastname, String address, String phNum) {
 		super(firstname, lastname, address, phNum);
@@ -15,7 +15,6 @@ static  List<Booking> bookedReservation;
 		bookedReservation = new ArrayList<Booking>();
 
 	}
-	
 	
 	public Customer() {
 		bookedReservation = new ArrayList<Booking>();
@@ -45,4 +44,5 @@ static  List<Booking> bookedReservation;
 				bookedReservation.remove(b);
 		
 	}
+	
 }
