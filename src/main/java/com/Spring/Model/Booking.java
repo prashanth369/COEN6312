@@ -15,7 +15,7 @@ private Flight bookedFlights;
           AirlinesService service = new AirlinesService(); 
    
 	     for( Flight f:service.getAllAirlines().getOwnedFights()) {
-		  if(f.getDestination().equalsIgnoreCase(destination) && f.getDepartureDate().equalsIgnoreCase(departureDate)) {
+		  if(f.getDestination().equalsIgnoreCase(destination) && f.getDepartureDate().equalsIgnoreCase(departureDate.trim())) {
 			  if(f.getCapacity() >0) {
 			  add(f);
 			  f.setCapacity(f.getCapacity()-1);

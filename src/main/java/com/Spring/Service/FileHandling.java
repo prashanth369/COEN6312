@@ -7,37 +7,53 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 public class FileHandling {
-	static BufferedWriter br;
-	static String path = "logfile.txt";
+	static BufferedWriter bw;
+	static BufferedReader br ;
+	private final  String path = "logfile.txt";
+	private final  String pathForUserData = "userdata.txt";
+	private final  String pathForFlightData = "flightfile.txt";
+
 	public void writeCredentialsToFile(String value) {
 		try {
-		 br = new BufferedWriter(new FileWriter(path, true));
-		br.write(value);
-		br.newLine();
-		br.close();}
+		 bw = new BufferedWriter(new FileWriter(path, true));
+		bw.write(value);
+		bw.newLine();
+		bw.close();}
 		catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
 	public void writeUserDataToFile(String value)  {
-		String path = "userdata.txt";
 		try {
-		br = new BufferedWriter(new FileWriter(path, true));
-		br.write(value);
-		br.newLine();
-		br.close();
+		bw = new BufferedWriter(new FileWriter(pathForUserData, true));
+		bw.write(value);
+		bw.newLine();
+		bw.close();
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
 	}
-	public boolean readCredentials(String username, String password)  {
+	public void addFlightsBookingsForUser(String bookedData) {
 		try {
-		BufferedReader br = new  BufferedReader(new FileReader(path));
+			bw = new BufferedWriter(new FileWriter(pathForFlightData, true));
+			bw.write(bookedData);
+			bw.newLine();
+			bw.close();
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+	}
+	
+	public String readCredentials(String username, String password)  {
+		try {
+		br = new  BufferedReader(new FileReader(path));
 		String lines;
 		while((lines = br.readLine())!=null) {
 			if(lines.contains(username)) {
 				if(lines.split(" ")[0].equalsIgnoreCase(username) &&lines.split(" ")[1].equalsIgnoreCase(password)) {
-					return true;
+					String userName = retrieveUserProfile(username);
+					br.close();
+					return userName;
 				}
 			}
 		}
@@ -45,8 +61,54 @@ public class FileHandling {
 		}catch(Exception e) {
 			e.printStackTrace();
 		}
+		
 	
-		return false;
+		return "";
+	}
+	
+	public String retrieveUserProfile(String username) {
+		try {
+			br = new  BufferedReader(new FileReader(pathForUserData));
+			String lines;
+			while((lines = br.readLine())!=null) {
+				if(lines.contains(username)) {
+					if(lines.split("  ")[0].equalsIgnoreCase(username) ) {
+						br.close();
+						return lines;
+					}
+				}
+			}
+			
+			}catch(Exception e) {
+				e.printStackTrace();
+			}	
+			return "";
+	}
+	
+	public String Bookedata(String username) {
+		String data = "";
+		try {
+			br = new  BufferedReader(new FileReader(pathForFlightData));
+			String lines;
+			while((lines = br.readLine())!=null) {
+				if(lines.contains(username)) {
+					if(lines.split(" ")[0].equalsIgnoreCase(username) ) {
+						data = data + lines + " ";
+						
+					}
+				}
+			}
+			br.close();
+            if(!data.isEmpty()) {
+            	return data;
+            }
+			
+			}catch(Exception e) {
+				e.printStackTrace();
+			}
+			
+		
+			return "";
 	}
 
 }

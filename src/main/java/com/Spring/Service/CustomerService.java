@@ -8,9 +8,11 @@ import com.Spring.Model.Update;
 
 public class CustomerService {
      private  Customer customer;
+     AirlinesService as ;
      
      
      public CustomerService() {
+     as = new AirlinesService();
     	 customer = new Customer();
      }
 	public boolean makeTypeBooking(String type)  {
@@ -49,6 +51,7 @@ public class CustomerService {
 	public void addCustomer(String firstName, String lastName, String address, String phNum) {
 		
 		customer = new Customer(firstName, lastName, address, phNum);
+		as.assignFlightsToAirlines();
 	}
 	
 	public Customer getTheCustomerInstance() {
