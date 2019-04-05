@@ -2,9 +2,8 @@ package com.Spring.Model;
 
 
 public class Cancel extends Reservation {
- Booking b;
 	
-	public boolean addCancel(String destination, String departureDate, Customer c, Payment payment) {	
+	public boolean addCancel(String destination, String departureDate, Customer c) {	
 
 		for(Booking b : c.getBookings()) {
 				if(b.getBookedFlight().getDestination().equalsIgnoreCase(destination) && (b.getBookedFlight().getDepartureDate().equalsIgnoreCase(departureDate))) {

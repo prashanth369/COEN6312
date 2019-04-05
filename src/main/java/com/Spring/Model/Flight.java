@@ -1,5 +1,7 @@
 package com.Spring.Model;
 public class Flight {
+	
+	
 	private String departureDate;
 	private String arrivalTime;
 	private long duration;
@@ -7,6 +9,8 @@ public class Flight {
 	private String destination;
 	private int capacity;
 	private double price;
+	
+	
 	
 	/** Constructor for the flight class for setting the fields to a particular flight */
 	public Flight(String departureDate, String arrivalTime, long duration, String flightNum, String destination, int capacity, double price) {
@@ -62,9 +66,7 @@ public class Flight {
 	public double getPrice() {
 		return this.price;
 	}
-	
 	public String toString() {
 		return "The flight Number is " + this.flightNum + " the destination " + this.destination +" and the duration is "+ this.duration + " Hours" + " Its departure date " + this.departureDate + " " + "$" + this.price + "\n";
 	}
-	
 }

@@ -9,6 +9,7 @@ import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.SessionAttributes;
 
 import com.Spring.Model.Flight;
 import com.Spring.Service.CustomerService;
@@ -16,15 +17,15 @@ import com.Spring.Service.FlightService;
 import com.Spring.Service.LoginService;
 
 @Controller
+@SessionAttributes("userName")
 public class ReservationController {
 	private static CustomerService customerService = new CustomerService(); 
     private String usernameForFlight="";
 	private static FlightService flightService = new FlightService();
 	static List<Flight> values = new ArrayList<>();
 	  List<Flight> userBookedFlights = new ArrayList<>();;
+	  List<Flight> userCancelledFlights = new ArrayList<>();
 
-
-	
 	@Autowired
 	LoginService service;
 	
@@ -87,6 +88,7 @@ public class ReservationController {
 			//model.clear();
 			return "customer";
 		}
+		
 		else {
 			customerService.addCustomer(firstName, lastName, address, phNum);			
 			service.addCustomerData(userName.trim(), firstName.trim(), lastName.trim(), address.trim(), phNum.trim());
@@ -110,7 +112,9 @@ public class ReservationController {
 			model.addAttribute("errorMessage", "Select the destination first");
 			return "userPage";
 		}
+		
 		values =  flightService.getFlightsForDestination(destination);
+
 		model.addAttribute("destination", destination);
 		model.addAttribute("values", values);
 		
@@ -121,30 +125,33 @@ public class ReservationController {
 	//TODO have to include the cancelled data in the files
 	@RequestMapping(value = "/booking", method = RequestMethod.POST)
 	public String makeBookingForSelectedDestin(@RequestParam("naming") String[] naming, ModelMap model){
-		if(naming[0].equalsIgnoreCase("value1")) {
-			customerService.makeTypeBooking("Booking "+ values.get(0).toString().split(" ")[7] + " " + values.get(0).toString().split(" ")[17]);
-			service.addUserFlightsData(usernameForFlight, values.get(0).toString());
-		}else if(naming[0].equalsIgnoreCase("value2")) {
-			customerService.makeTypeBooking("Booking "+ values.get(1).toString().split(" ")[7] + " " + values.get(1).toString().split(" ")[17]);
-			service.addUserFlightsData(usernameForFlight, values.get(1).toString());
+		int counter =1;
+		
+		
+		while(counter <= values.size()) {
+		if(naming[0].equalsIgnoreCase("value" + counter)) {			
+			customerService.makeTypeBooking("Booking "+ values.get(counter -1).toString().split(" ")[7] + " " + values.get(counter -1).toString().split(" ")[17]);
+			service.addUserFlightsData(usernameForFlight, values.get(counter-1).toString());
+		   }
+		counter++;
 
-		}
+		 }
 				model.addAttribute("firstName", customerService.getTheCustomerInstance().getFirstname());
 				model.addAttribute("lastName", customerService.getTheCustomerInstance().getLastname());
 				
 				String data = service.retrieveUserBookedData(usernameForFlight);
+				 String cancelledData = service.retrieveUserCancelledData(usernameForFlight);
+				
+				 if(!data.isEmpty()) {
 				 data = data.substring(0, data.length()-1);
-				 String[] dataVariable = data.split(" ");
-				 int counter1, counter2 =0;;
-				 counter1 = dataVariable.length;
-				 while(counter1 > counter2 ) {
-				 userBookedFlights.add(flightService.getFlightsForDepartureAndDestination(data.split(" ")[counter2 + 8], data.split(" ")[counter2 + 18]));
-				 counter2 = counter2 + 20;
+				 userBookedFlights = service.getTheChangedBookings(data, flightService);
 				 }
-				double price ;
-				price = customerService.getPaymentInstance().getBookingPrice();
+				 if(!cancelledData.isEmpty()) {
+					 userCancelledFlights = service.getTheChangedBookings(cancelledData, flightService);
+						 userBookedFlights = service.getChangedListFromOriginal(userBookedFlights,userCancelledFlights);
+				   }
 				 model.addAttribute("values", userBookedFlights);
-   				 model.addAttribute("price", price);
+   				 model.addAttribute("price", customerService.getPaymentInstance().getBookingPrice(usernameForFlight));
 				values.clear();
 		return "index";
 	}
@@ -154,50 +161,51 @@ public class ReservationController {
 	public String makeLogin(@RequestParam String userName, @RequestParam String password, ModelMap model) throws Exception {
 		String test =service.checkLoginCredentials(userName, password);
 		userBookedFlights = new ArrayList<>();
+		
 		if(test.isEmpty()) {
 			model.clear();
 			model.addAttribute("errorMessage", "Invalid Credentials");
 			return "loginPage";
 		}
-		else
+		
+		else {
 			usernameForFlight = userName;
 			model.addAttribute("firstName", test.split("  ")[1]);
 		    model.addAttribute("lastName", test.split("  ")[2]);
 			customerService.addCustomer(test.split("  ")[1], test.split("  ")[2], test.split("  ")[3], test.split("  ")[4]);
-			 String data = service.retrieveUserBookedData(userName);
-			 // This is where i have to change the code for cancelling 
+			 
+			model.addAttribute("firstName", customerService.getTheCustomerInstance().getFirstname());
+			model.addAttribute("lastName", customerService.getTheCustomerInstance().getLastname());
+			
+			String data = service.retrieveUserBookedData(usernameForFlight);
+			 String cancelledData = service.retrieveUserCancelledData(usernameForFlight);
+			 
+			 if(!data.isEmpty()) {
 			 data = data.substring(0, data.length()-1);
-			 String[] dataVariable = data.split(" ");
-			 int counter1, counter2 =0;;
-			 counter1 = dataVariable.length;
-			 while(counter1 > counter2 ) {
-			 userBookedFlights.add(flightService.getFlightsForDepartureAndDestination(data.split(" ")[counter2 + 8], data.split(" ")[counter2 + 18]));
-			 counter2 = counter2 + 20;
+                 userBookedFlights = service.getTheChangedBookings(data, flightService);
 			 }
-			 double price = 0.0;
-			price = customerService.getPaymentInstance().getBookingPrice();
-			 model.addAttribute("price", price);
+			
+			 if(!cancelledData.isEmpty()) {
+				 userCancelledFlights = service.getTheChangedBookings(cancelledData.substring(0, cancelledData.length()-1), flightService);	
+				 userBookedFlights = service.getChangedListFromOriginal(userBookedFlights,userCancelledFlights);
+			   }
+			 
+			 model.addAttribute("price", customerService.getPaymentInstance().getBookingPrice(usernameForFlight));
 			 model.addAttribute("values", userBookedFlights);
 			 
 		return "index";
 	}
-	
+	}
 	
 	@RequestMapping(value = "cancelBooking", method = RequestMethod.GET)
 	public String getCancelBookings(ModelMap model) {
 		
 		if(userBookedFlights.isEmpty()) {
 			model.addAttribute("emptyMessage", "No bookings to cancel");
-			model.addAttribute("price", 0.0);
+			model.addAttribute("price", customerService.getPaymentInstance().getPayment());
 			return "index";
 		}
 		model.addAttribute("naming", userBookedFlights);
-		 double price = 0.0;
-		 for(Flight f: userBookedFlights) {
-			 price = price + f.getPrice();
-		 }
-			double val = customerService.getPaymentInstance().getBookingPrice();
-		 model.addAttribute("price", price+ val);
 		return "cancelBooking";
 	}
 	
@@ -207,16 +215,21 @@ public class ReservationController {
 		while(counter <= userBookedFlights.size()) {
 		if(naming[0].equalsIgnoreCase("value" + counter)) {
 			customerService.makeTypeBooking("Cancel "+ userBookedFlights.get(counter-1).toString().split(" ")[7] + " " + userBookedFlights.get(counter-1).toString().split(" ")[17]);
-			userBookedFlights.remove(counter-1);
+			service.addCancelledBookings(usernameForFlight, userBookedFlights.get(counter-1).toString());
+		         }
+		  counter++;
 		}
-		counter++;
-		}
-		double val = customerService.getPaymentInstance().getBookingPrice();
+		
+		String data = service.retrieveUserBookedData(usernameForFlight);
+		 String cancelledData = service.retrieveUserCancelledData(usernameForFlight);
+		 data = data.substring(0, data.length()-1);
+		 userBookedFlights = service.getTheChangedBookings(data, flightService);
+		 if(!cancelledData.isEmpty()) {
+			 userCancelledFlights = service.getTheChangedBookings(cancelledData.substring(0, cancelledData.length()-1), flightService);
+			 userBookedFlights = service.getChangedListFromOriginal(userBookedFlights,userCancelledFlights);
+		   }
 		double price = 0.0;
-		 for(Flight f: userBookedFlights) {
-			 price = price + f.getPrice();
-		 }
-		 price = price + val;
+		price = customerService.getPaymentInstance().getBookingPrice(usernameForFlight);
 		 model.addAttribute("price", price);
 		model.addAttribute("values", userBookedFlights);
 		return "index";

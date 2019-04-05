@@ -5,13 +5,12 @@ import com.Spring.Service.AirlinesService;
 public class Booking extends Reservation {
     private Flight bookedFlights;
 	private double price;
-	private Payment payment;
  
  public Flight getBookedFlight() {
 	return bookedFlights;
 }
  
-	public boolean addBooking(String destination, String departureDate, Customer customer, Payment payment) {
+	public boolean addBooking(String destination, String departureDate, Customer customer) {
 		
           AirlinesService service = new AirlinesService(); 
    
@@ -19,8 +18,6 @@ public class Booking extends Reservation {
 		  if(f.getDestination().equalsIgnoreCase(destination) && f.getDepartureDate().equalsIgnoreCase(departureDate.trim())) {
 			  if(f.getCapacity() >0) {
 			  add(f);
-			  this.payment = payment;
-			  this.payment.addPayment(f.getPrice());
 			  f.setCapacity(f.getCapacity()-1);
 			  return true;
 			  }

@@ -26,7 +26,7 @@ public class CustomerService {
 		if(type.contains("Booking")) {	
 			String[] bookingArrays = type.split(" ");
 			reserve = new Booking();
-			if(((Booking) reserve).addBooking(bookingArrays[1],bookingArrays[2], customer, payment)) {
+			if(((Booking) reserve).addBooking(bookingArrays[1],bookingArrays[2], customer)) {
 				customer.addBooking((Booking)reserve);
 				reserve = null;
 			}
@@ -37,7 +37,7 @@ public class CustomerService {
 		if(type.contains("Update")) {	
 			String[] updatingArrays = type.split(" ");
 			reserve = new Update();
-			 customer.addBooking(((Update) reserve).makeUpdate(updatingArrays[1],updatingArrays[2],updatingArrays[3], updatingArrays[4], customer, this.payment));
+			 customer.addBooking(((Update) reserve).makeUpdate(updatingArrays[1],updatingArrays[2],updatingArrays[3], updatingArrays[4], customer));
 		    reserve = null;
 			return true;
 		}
@@ -45,7 +45,7 @@ public class CustomerService {
 
 			String[] cancellingArrays = type.split(" ");
 			reserve = new Cancel();
-			if(((Cancel) reserve).addCancel(cancellingArrays[1],cancellingArrays[2], customer, this.payment)) {
+			if(((Cancel) reserve).addCancel(cancellingArrays[1],cancellingArrays[2], customer)) {
 				return true;
 			}
 		}	
@@ -54,7 +54,6 @@ public class CustomerService {
 	
 	public void addCustomer(String firstName, String lastName, String address, String phNum) {
 		customer = new Customer(firstName, lastName, address, phNum);
-		as.assignFlightsToAirlines();
 	}
 	
 	public Customer getTheCustomerInstance() {
@@ -64,5 +63,4 @@ public class CustomerService {
 	public Payment getPaymentInstance() {
 		return this.payment;
 	}
-
 }
