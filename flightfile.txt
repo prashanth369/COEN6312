@@ -66,3 +66,5 @@ Booking re The flight Number is BA104 the destination CHICAGO and the duration i
  
 Cancel re The flight Number is BA104 the destination CHICAGO and the duration is 6 Hours Its departure date 14-03-2019 $576.9
  
+Booking nayana The flight Number is BA102 the destination FRANCE and the duration is 12 Hours Its departure date 12-03-2019 $574.89
+ 

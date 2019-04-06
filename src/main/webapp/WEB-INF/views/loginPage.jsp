@@ -9,9 +9,14 @@
 p{
 color:red
 }
+body{
+background-color:coral;
+text-align:center;
+}
 </style>
 </head>
 <body>
+	<h1>Airline Reservation System</h1>
 <p>${errorMessage}</p>
 <form action="/airline/login" method ="POST">
  User Name : <input type ="text" name ="userName"><br><br>

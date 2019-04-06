@@ -4,7 +4,7 @@
 <html>
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-<title>User Serach Page</title>
+<title>User Search Page</title>
 <style type = "css">
 p{
 color:red

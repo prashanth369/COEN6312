@@ -2,9 +2,39 @@ package com.Spring.Model;
 
 import com.Spring.Service.LoginService;
 
+import java.util.List;
+
 public class Payment {
- 
- double price;
+	/**
+	 * 
+	 */
+	public List<Reservation> completes;
+	
+	private double price;
+	/**
+	 * Getter of completes
+	 */
+	public List<Reservation> getCompletes() {
+	 	 return completes; 
+	}
+	/**
+	 * Setter of completes
+	 */
+	public void setCompletes(List<Reservation> completes) { 
+		 this.completes = completes; 
+	}
+	/**
+	 * Getter of price
+	 */
+	public double getPrice() {
+	 	 return price; 
+	}
+	/**
+	 * Setter of price
+	 */
+	public void setPrice(double price) { 
+		 this.price = price; 
+	}
  static LoginService service = new LoginService();
 	 
 	public double getBookingPrice(String username) {
@@ -31,4 +61,7 @@ public class Payment {
 	public double getPayment() {
 		return this.price;
 	}
+	public void addPayment(double price) { 
+		// TODO Auto-generated method
+	 }
 }
