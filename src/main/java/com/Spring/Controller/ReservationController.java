@@ -234,6 +234,55 @@ public class ReservationController {
 		model.addAttribute("values", userBookedFlights);
 		return "index";
 	}
+	
+	
+	/** This method is to get  the update link to the update page  */
+	
+	@RequestMapping(value = "updateBooking", method = RequestMethod.GET)
+	public String getUpdateBookings(ModelMap model) {
+		if(userBookedFlights.isEmpty()) {
+			
+			model.addAttribute("emptyMessage", "No bookings Available to make the Update");
+			model.addAttribute("price", customerService.getPaymentInstance().getPayment());
+			return "index";
+		}
+		model.addAttribute("naming", userBookedFlights);
+		return "updateBooking";
+	}
+	
+	/** This method is to make the update to the available bookings */
+
+	@RequestMapping(value = "updateBooking", method = RequestMethod.POST)
+	public String makeUpdateBookings(@RequestParam String[] naming, ModelMap model) {
+		int counter =1;
+		if(naming.length==0) {
+			model.addAttribute("errorMessage", "Please select the Booking to be updated");
+			model.addAttribute("naming", userBookedFlights);
+			return "updateBooking";
+		}
+		while(counter <= userBookedFlights.size()) {
+		if(naming[0].equalsIgnoreCase("value" + counter)) {
+			customerService.makeTypeBooking("Cancel "+ userBookedFlights.get(counter-1).toString().split(" ")[7] + " " + userBookedFlights.get(counter-1).toString().split(" ")[17]);
+			service.addCancelledBookings(usernameForFlight, userBookedFlights.get(counter-1).toString());
+		         }
+		  counter++;
+		}
+		
+		String data = service.retrieveUserBookedData(usernameForFlight);
+		 String cancelledData = service.retrieveUserCancelledData(usernameForFlight);
+		 data = data.substring(0, data.length()-1);
+		 userBookedFlights = service.getTheChangedBookings(data, flightService);
+		 if(!cancelledData.isEmpty()) {
+			 userCancelledFlights = service.getTheChangedBookings(cancelledData.substring(0, cancelledData.length()-1), flightService);
+			 userBookedFlights = service.getChangedListFromOriginal(userBookedFlights,userCancelledFlights);
+		   }
+		double price = 0.0;
+		price = customerService.getPaymentInstance().getBookingPrice(usernameForFlight);
+		 model.addAttribute("price", price);
+		model.addAttribute("values", userBookedFlights);
+		return "index";
+	}
+	
 
 
 }
