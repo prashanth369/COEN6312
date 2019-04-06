@@ -7,20 +7,27 @@ public class Person {
 	private String lastname;
 	private String address;
 	private String phNum;
+	private Integer age;
 	
 	
-	public Person(String firstname, String lastname, String address, String phNum) {
+	public Person(String firstname, String lastname, String address, String phNum2) {
 		
 		this.firstname = firstname;
 		this.lastname = lastname;
 		this.address = address;
-		this.phNum = phNum;
+		this.phNum = phNum2;
 	}
 	
 	public Person() {}
+	/**
+	 * Getter of firstName
+	 */
 	public String getFirstname() {
 		return firstname;
 	}
+	/**
+	 * Setter of firstName
+	 */
 	public void setFirstname(String firstname) {
 		this.firstname = firstname;
 	}
@@ -30,9 +37,15 @@ public class Person {
 	public void setLastname(String lastname) {
 		this.lastname = lastname;
 	}
+	/**
+	 * Getter of address
+	 */
 	public String getAddress() {
 		return address;
 	}
+	/**
+	 * Setter of address
+	 */
 	public void setAddress(String address) {
 		this.address = address;
 	}
@@ -41,6 +54,18 @@ public class Person {
 	}
 	public void setPhNum(String phNum) {
 		this.phNum = phNum;
+	}
+	/**
+	 * Getter of age
+	 */
+	public Integer getAge() {
+	 	 return age; 
+	}
+	/**
+	 * Setter of age
+	 */
+	public void setAge(Integer age) { 
+		 this.age = age; 
 	}
 	
 	

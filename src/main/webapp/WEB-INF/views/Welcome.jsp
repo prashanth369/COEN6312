@@ -5,9 +5,17 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>Welcome</title>
+<style>
+p{
+color:red
+}
+body{
+background-color:violet;
+}
+</style>
 </head>
-<body>
-<h3> Hello Welcome to this Welcoming page</h3>
+<body text="white" style="text-align:center;">
+<h3 style="background-color:DodgerBlue;">Hello Welcome to Airline Reservation</h3>
 
 <a href="logging"> For loggin</a><br><br>
 <a href="register"> For registering</a>

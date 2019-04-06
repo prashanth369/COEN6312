@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 0:0:0:0:0:0:0:1 - - [05/Apr/2019:13:40:21 -0400] "GET /airline/hello HTTP/1.1" 200 370 http-bio-8080-exec-1 836
 0:0:0:0:0:0:0:1 - - [05/Apr/2019:13:40:23 -0400] "GET /airline/logging HTTP/1.1" 200 495 http-bio-8080-exec-3 142
 0:0:0:0:0:0:0:1 - - [05/Apr/2019:13:40:25 -0400] "GET /airline/hello HTTP/1.1" 200 370 http-bio-8080-exec-4 5
@@ -321,3 +322,12 @@
 0:0:0:0:0:0:0:1 - - [05/Apr/2019:17:42:48 -0400] "POST /airline/booking HTTP/1.1" 200 625 http-bio-8080-exec-9 56
 0:0:0:0:0:0:0:1 - - [05/Apr/2019:17:42:51 -0400] "GET /airline/cancelBooking HTTP/1.1" 200 673 http-bio-8080-exec-9 13
 0:0:0:0:0:0:0:1 - - [05/Apr/2019:17:42:53 -0400] "POST /airline/cancelBooking HTTP/1.1" 200 463 http-bio-8080-exec-9 13
+=======
+0:0:0:0:0:0:0:1 - - [05/Apr/2019:22:09:36 -0400] "GET /airline/logging HTTP/1.1" 200 583 http-bio-8080-exec-1 1092
+0:0:0:0:0:0:0:1 - - [05/Apr/2019:22:09:40 -0400] "GET /airline/hello HTTP/1.1" 200 511 http-bio-8080-exec-4 102
+0:0:0:0:0:0:0:1 - - [05/Apr/2019:22:09:47 -0400] "GET /airline/logging HTTP/1.1" 200 583 http-bio-8080-exec-6 6
+0:0:0:0:0:0:0:1 - - [05/Apr/2019:22:09:59 -0400] "GET /airline/hello HTTP/1.1" 200 511 http-bio-8080-exec-8 2
+0:0:0:0:0:0:0:1 - - [05/Apr/2019:22:10:15 -0400] "GET /airline/logging HTTP/1.1" 200 583 http-bio-8080-exec-1 7
+0:0:0:0:0:0:0:1 - - [05/Apr/2019:22:10:27 -0400] "GET /airline/hello HTTP/1.1" 200 511 http-bio-8080-exec-6 4
+0:0:0:0:0:0:0:1 - - [05/Apr/2019:22:11:16 -0400] "GET /airline/register HTTP/1.1" 200 773 http-bio-8080-exec-5 98
+>>>>>>> b6c10ea4ce44b720b5311150de50ba24e12e2513

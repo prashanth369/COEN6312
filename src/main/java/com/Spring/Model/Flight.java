@@ -9,8 +9,7 @@ public class Flight {
 	private String destination;
 	private int capacity;
 	private double price;
-	
-	
+	private String arrivalDate;
 	
 	/** Constructor for the flight class for setting the fields to a particular flight */
 	public Flight(String departureDate, String arrivalTime, long duration, String flightNum, String destination, int capacity, double price) {
@@ -29,6 +28,18 @@ public class Flight {
 	}
 	public void setDepartureDate(String departureDate) {
 		this.departureDate = departureDate;
+	}
+	/**
+	 * Getter of arrivalDate
+	 */
+	public String getArrivalDate() {
+	 	 return arrivalDate; 
+	}
+	/**
+	 * Setter of arrivalDate
+	 */
+	public void setArrivalDate(String arrivalDate) { 
+		 this.arrivalDate = arrivalDate; 
 	}
 	public String getArrivalTime() {
 		return arrivalTime;

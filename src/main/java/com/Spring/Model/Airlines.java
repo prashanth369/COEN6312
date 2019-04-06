@@ -13,17 +13,28 @@ public class Airlines {
 		this.numbFlights = numbFlights;
 		Airlines.ownedFights = ownedFights;
 	}
-
+	/**
+	 * Getter of Name
+	 */
 	
 	public String getName() {
 		return name;
 	}
+	/**
+	 * Setter of Name
+	 */
 	public void setName(String name) {
 		this.name = name;
 	}
+	/**
+	 * Getter of NumbFlight
+	 */
 	public int getNumbFlights() {
 		return numbFlights;
 	}
+	/**
+	 * Setter of NumbFlight
+	 */
 	public void setNumbFlights(int numbFlights) {
 		this.numbFlights = numbFlights;
 	}

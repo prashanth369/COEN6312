@@ -68,7 +68,7 @@ public class ReservationController {
 			testing =true;
 		}
 
-		if(phNum.isEmpty()) {
+		if(phNum==null) {
 			model.addAttribute("errorPhoneNum", "  phone number cannot be empty");
 			testing =true;
 		}
@@ -91,7 +91,7 @@ public class ReservationController {
 		
 		else {
 			customerService.addCustomer(firstName, lastName, address, phNum);			
-			service.addCustomerData(userName.trim(), firstName.trim(), lastName.trim(), address.trim(), phNum.trim());
+			service.addCustomerData(userName.trim(), firstName.trim(), lastName.trim(), address.trim(), phNum);
 			usernameForFlight = userName.trim();
 			model.addAttribute("firstName", firstName.trim());
 			model.addAttribute("lastName", lastName.trim());
@@ -172,7 +172,7 @@ public class ReservationController {
 			usernameForFlight = userName;
 			model.addAttribute("firstName", test.split("  ")[1]);
 		    model.addAttribute("lastName", test.split("  ")[2]);
-			customerService.addCustomer(test.split("  ")[1], test.split("  ")[2], test.split("  ")[3], test.split("  ")[4]);
+			customerService.addCustomer(test.split("  ")[1], test.split("  ")[2], test.split("  ")[3], test);
 			 
 			model.addAttribute("firstName", customerService.getTheCustomerInstance().getFirstname());
 			model.addAttribute("lastName", customerService.getTheCustomerInstance().getLastname());
