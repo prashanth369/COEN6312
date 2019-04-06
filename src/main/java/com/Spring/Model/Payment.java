@@ -35,9 +35,10 @@ public class Payment {
 	public void setPrice(double price) { 
 		 this.price = price; 
 	}
- static LoginService service = new LoginService();
 	 
 	public double getBookingPrice(String username) {
+		  LoginService service = new LoginService();
+
 		String data = service.retrieveUserBookedData(username);
 		String cancelledData = service.retrieveUserCancelledData(username);
 		double price = 0.0, priceForCancel = 0.0;
@@ -46,21 +47,20 @@ public class Payment {
 		 while(counter1 > counter2 ) {
 			 price = price + Double.parseDouble((data.split(" ")[20]).substring(1));
 		 counter2 = counter2 + 21;
-		 }
+		  }
 		 
+		 if(!cancelledData.isEmpty()) {
 		 counter1 = cancelledData.split(" ").length;
 		 counter2 =0;
 		 while(counter1 > counter2 ) {
 			 priceForCancel = priceForCancel + Double.parseDouble((cancelledData.split(" ")[20]).substring(1));
 		 counter2 = counter2 + 21;
 		 }
-		 
+		 }
 		 this.price = (price -(priceForCancel/2));
 		return this.price;
 	}
-	public double getPayment() {
-		return this.price;
-	}
+
 	public void addPayment(double price) { 
 		// TODO Auto-generated method
 	 }

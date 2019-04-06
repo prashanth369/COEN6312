@@ -7,21 +7,55 @@
 <head>
 <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 <title>cancel Booking</title>
+<style>
+#customers td, #customers th {
+  border: 1px solid #ddd;
+  padding: 8px;
+}
+#customers tr:nth-child(even){background-color: #f2f2f2;}
+
+#customers tr:hover {background-color: #ddd;}
+.index-page{
+width: 65%;
+height:400px;
+margin: auto;
+padding:25px;
+col-space:2px;
+text-align:center;
+border:1px solid black;
+}
+.inner-header{
+color: white;
+border: 1px solid black;
+padding:0px;
+background-color:lightgreen;
+width:100%;
+
+}
+
+</style>
 </head>
 <body>
-
+<div class ="index-page">
+<p>${errorMessage}</p>
+<div class ="inner-header">
 <h3> Select the following bookings to cancel which you have booked </h3>
+</div>
 	 <%! int val = 1 ;%>
 
 <form action = "/airline/cancelBooking" method ="post">
-<ul>
-	 <c:forEach var="listValue" items="${naming}">
-		 <input type ="checkbox" name ="naming" value ="value<%=val%>"> <li>${listValue}</li></a><br><br>	
-		 <% val = val + 1; %>
-			</c:forEach>
-			<%val=1; %>
-		</ul>
-		<input type = "submit" value ="submit">
+
+<table id ="customers">
+<tr><c:forEach var="listValue" items="${values}">
+<td><input type ="checkbox" name ="naming" value ="value<%=val%>">${listValue}</td>
+ <% val = val + 1; %>
+</tr>
+</c:forEach>
+<%val=1; %>
+</table>
+
+<input type = "submit" value ="submit">
 		</form>
+		</div>
 </body>
 </html>

@@ -202,15 +202,23 @@ public class ReservationController {
 		
 		if(userBookedFlights.isEmpty()) {
 			model.addAttribute("emptyMessage", "No bookings to cancel");
-			model.addAttribute("price", customerService.getPaymentInstance().getPayment());
+			model.addAttribute("price", customerService.getPaymentInstance().getPrice());
 			return "index";
 		}
-		model.addAttribute("naming", userBookedFlights);
+		model.addAttribute("values", userBookedFlights);
 		return "cancelBooking";
 	}
 	
 	@RequestMapping(value = "cancelBooking", method = RequestMethod.POST)
 	public String makeCancelBookings(@RequestParam String[] naming, ModelMap model) {
+		if(naming.length==0) {
+			System.out.println("its here atleast ");
+			model.addAttribute("errorMessage", "Please select the Booking to be cancelled");
+			model.addAttribute("naming", userBookedFlights);
+			return "updateBooking";
+		}
+		
+		
 		int counter =1;
 		while(counter <= userBookedFlights.size()) {
 		if(naming[0].equalsIgnoreCase("value" + counter)) {
@@ -243,7 +251,7 @@ public class ReservationController {
 		if(userBookedFlights.isEmpty()) {
 			
 			model.addAttribute("emptyMessage", "No bookings Available to make the Update");
-			model.addAttribute("price", customerService.getPaymentInstance().getPayment());
+			model.addAttribute("price", customerService.getPaymentInstance().getPrice());
 			return "index";
 		}
 		model.addAttribute("naming", userBookedFlights);
@@ -268,19 +276,8 @@ public class ReservationController {
 		  counter++;
 		}
 		
-		String data = service.retrieveUserBookedData(usernameForFlight);
-		 String cancelledData = service.retrieveUserCancelledData(usernameForFlight);
-		 data = data.substring(0, data.length()-1);
-		 userBookedFlights = service.getTheChangedBookings(data, flightService);
-		 if(!cancelledData.isEmpty()) {
-			 userCancelledFlights = service.getTheChangedBookings(cancelledData.substring(0, cancelledData.length()-1), flightService);
-			 userBookedFlights = service.getChangedListFromOriginal(userBookedFlights,userCancelledFlights);
-		   }
-		double price = 0.0;
-		price = customerService.getPaymentInstance().getBookingPrice(usernameForFlight);
-		 model.addAttribute("price", price);
-		model.addAttribute("values", userBookedFlights);
-		return "index";
+		
+		return "userPage";
 	}
 	
 

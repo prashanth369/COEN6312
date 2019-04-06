@@ -9,16 +9,62 @@
 p{
 color:red
 }
-body{
-background-color:violet;
+
+.inner-header{
+color: white;
+border: 1px solid black;
+padding:0px;
+background-color:lightgreen;
+width:100%;
+
 }
+a:link, a:visited {
+  background-color: lightgreen;
+  color: white;
+  padding: 14px 25px;
+  text-align: center;
+  text-decoration: none;
+  display: inline-block;
+}
+.welcome-page{
+width: 50%;
+height:400px;
+margin: auto;
+padding:25px;
+col-space:2px;
+text-align:center;
+border:1px solid black;
+}
+
+#left-hand{
+padding-left:20px;
+padding-right:100px;
+padding-top:100px;
+width:400px;
+}
+#right-hand{
+padding-left:200px;
+padding-right:10px;
+padding-top:100px;
+width:400px;
+}
+}
+
 </style>
 </head>
 <body text="white" style="text-align:center;">
-<h3 style="background-color:DodgerBlue;">Hello Welcome to Airline Reservation</h3>
+<div class ="welcome-page">
+<div class ="inner-header">
+<h3>Hello Welcome to Airline Reservation</h3>
+</div>
+<br><br>
+<table>
+<th id ="left-hand"><a href="logging"> For loggin</a></th>
+<th id ="right-hand"><a href="register"> For registering</a></th>
+</table>
 
-<a href="logging"> For loggin</a><br><br>
-<a href="register"> For registering</a>
 
+
+</div>
 </body>
 </html>
