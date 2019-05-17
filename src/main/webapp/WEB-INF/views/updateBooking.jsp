@@ -13,7 +13,6 @@
   padding: 8px;
 }
 #customers tr:nth-child(even){background-color: #f2f2f2;}
-
 #customers tr:hover {background-color: #ddd;}
 .index-page{
 width: 65%;
@@ -30,12 +29,10 @@ border: 1px solid black;
 padding:0px;
 background-color:lightgreen;
 width:100%;
-
 }
 p{
 color:red;
 }
-
 </style>
 </head>
 <body>

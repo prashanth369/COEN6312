@@ -1,4 +1,3 @@
-
 <%@taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core"%>
 
 <html>
@@ -19,18 +18,14 @@ border: 1px solid black;
 padding:0px;
 background-color:lightgreen;
 width:100%;
-
 }
-
 #customers td, #customers th {
   border: 1px solid #ddd;
   padding: 8px;
   display:inline-block;
 }
 #customers tr:nth-child(even){background-color: #f2f2f2;}
-
 #customers tr:hover {background-color: #ddd;}
-
 </style>
 
 </head>

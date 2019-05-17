@@ -1,5 +1,8 @@
 package com.Spring.Controller;
 
+import java.sql.Connection;
+import java.sql.ResultSet;
+import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -11,14 +14,17 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.SessionAttributes;
 
+import com.Spring.Model.Customer;
 import com.Spring.Model.Flight;
 import com.Spring.Service.CustomerService;
 import com.Spring.Service.FlightService;
 import com.Spring.Service.LoginService;
+import com.Spring.Service.MyConnection;
 
 @Controller
 @SessionAttributes("userName")
 public class ReservationController {
+	private static Customer  customer= new Customer();
 	private static CustomerService customerService = new CustomerService(); 
     private String usernameForFlight="";
 	private static FlightService flightService = new FlightService();
@@ -26,6 +32,8 @@ public class ReservationController {
 	  List<Flight> userBookedFlights = new ArrayList<>();;
 	  List<Flight> userCancelledFlights = new ArrayList<>();
 
+	  
+	  
 	@Autowired
 	LoginService service;
 	
@@ -50,55 +58,39 @@ public class ReservationController {
 	
 	@RequestMapping(value = "/register", method = RequestMethod.POST)
 	public String getLogin(@RequestParam String firstName,@RequestParam String lastName,@RequestParam String address,@RequestParam String phNum, @RequestParam String userName,@RequestParam String password, ModelMap model) throws Exception {
-          boolean testing = false;
           if(userBookedFlights.size() > 0) {
-          userBookedFlights.clear();}
-		if(firstName.isEmpty()) {
-			model.addAttribute("errorFirstName", " Firstname cannot be empty ");
-			testing =true;
-		}
-		
-		if(lastName.isEmpty()) {
-			model.addAttribute("errorLastName", "  lastname cannot be empty ");
-			testing =true;
-		}
-			
-		if(address.isEmpty()) {
-			model.addAttribute("errorAddress", "  address cannot be empty");
-			testing =true;
-		}
+          userBookedFlights.clear();
+          }
+          String sqlQuery = "SELECT username FROM customer";
+            MyConnection conn = new MyConnection();
+            conn.myCon();
+        
+             Statement stmt = conn.myCon();
+             ResultSet rs = stmt.executeQuery(sqlQuery);
+             while(rs.next()) {
+            	 String usrName = rs.getString("username");
+            	 if(userName.equalsIgnoreCase(usrName)) {
+            		 String errorMessage = "This username is already taken choose an unique username";
+            		 model.addAttribute("errorUserName",errorMessage );
+            		 return "customer";
+            	 }
+             }
 
-		if(phNum==null) {
-			model.addAttribute("errorPhoneNum", "  phone number cannot be empty");
-			testing =true;
-		}
-
-		if(userName.isEmpty()) {
-			model.addAttribute("errorUserName", "username cannot be empty ");
-			testing =true;
-		}
-
-		if(password.isEmpty()) {
-			model.addAttribute("errorPassword", "password cannot be empty ");
-			testing =true;
-		}
-		service.addCredentials(userName, password);
-
-		if(testing) {
-			//model.clear();
-			return "customer";
-		}
-		
-		else {
-			customerService.addCustomer(firstName, lastName, address, phNum);			
-			service.addCustomerData(userName.trim(), firstName.trim(), lastName.trim(), address.trim(), phNum);
+             customer.setFirstname(firstName.trim());
+             customer.setLastname(lastName.trim());
+             customer.setAddress(address.trim());
+             customer.setPhNum(phNum.trim());
+             
+			service.addCustomerData(userName.trim(), firstName.trim(), lastName.trim(), address, phNum);
 			usernameForFlight = userName.trim();
 			model.addAttribute("firstName", firstName.trim());
 			model.addAttribute("lastName", lastName.trim());
 			model.addAttribute("message", "The user " + firstName + " currenlt does not have any reservations ");
-            model.addAttribute("price", 0.0);
+           // model.addAttribute("price", 0.0);
+            String sql = "INSERT INTO customer VALUES ( '"+ customer.getFirstname()  + "' , '" + customer.getLastname()  + "' , '" + customer.getAddress()  + "' , '" + customer.getPhNum() + "' , '" + userName.trim() + "' , '" + password.trim() + "')";
+            stmt.executeUpdate(sql);
 		return "index";
-		}
+		
 	}
 	
 	@RequestMapping(value = "/searchResults", method = RequestMethod.GET)

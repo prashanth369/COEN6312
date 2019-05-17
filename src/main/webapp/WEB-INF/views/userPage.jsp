@@ -14,9 +14,7 @@ width:200px;
 height:30px;
 background-color:lightgreen;
 }
-
 .search{
-
 width: 60%;
 height:400px;
 margin: auto;
@@ -32,7 +30,6 @@ border: 1px solid black;
 padding:0px;
 background-color:lightgreen;
 width:100%;
-
 }
 input{
 color:white;
